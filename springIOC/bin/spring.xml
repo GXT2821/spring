@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+http://www.springframework.org/schema/util 
+http://www.springframework.org/schema/util/spring-util-3.0.xsd"
+>
+<!-- 
+	配置bean
+	class: bean的全类名，通过反射方式在IOC中创建Bean，所以要求Bean中必须有无参数的构造器
+	id：表示IOC中的Bean，id唯一
+ -->
+<bean id="daoImp" class="com.sut.gt.Dao.IDaoImp" />  <!-- Dao对象 -->
+
+<bean id="service" class="com.sut.gt.Service.IServiceImp"> <!-- Serviced对象 -->
+     <property name="dao" ref="daoImp"></property> <!-- 设置Dao属性 -->
+     </bean>
+     
+     <!-- 构造方法注入 -->
+     <bean id="car" class="com.sut.gt.test.Car">
+     	<constructor-arg value="ss"></constructor-arg>
+     	<constructor-arg value="南京"></constructor-arg>
+     	<constructor-arg value="3000000"></constructor-arg>
+     </bean>
+     
+     <bean id="person" class="com.sut.gt.test.Person">
+     	<constructor-arg value="asd"></constructor-arg>
+     	<constructor-arg value="23"></constructor-arg>
+     	<!-- <constructor-arg ref="car"></constructor-arg> -->
+     	<constructor-arg><null/></constructor-arg>
+     </bean>
+     
+     <util:list id="cars">
+     	<ref bean="car" />
+     	<ref bean="car" />
+     </util:list>
+     
+     <!-- 测试集合属性 -->
+     <bean id="person2" class="com.sut.gt.Collections.Person">
+     	<property name="name" value="ss"></property>
+     	<property name="age" value="23"></property>
+     	<property name="car" ref="cars"></property>
+     </bean>
+     
+     <bean id="person3" class="com.sut.gt.Collections.Person" p:name="java" p:age="23" p:car-ref="cars">
+     </bean>
+</beans>
